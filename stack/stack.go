@@ -2,20 +2,26 @@ package stack
 
 import "errors"
 
+// IStack base interface
 type IStack interface {
 	Push(interface{})
 	Pop() interface{}
+	IsEmpty() bool
+	Size() int
 }
 
+// Stack simple implementation
 type Stack struct {
-	Data []string
+	Data []rune
 }
 
-func (stack *Stack) Push(value string) {
+// Push - method of Stack
+func (stack *Stack) Push(value rune) {
 	stack.Data = append(stack.Data, value)
 }
 
-func (stack *Stack) Pop() (string, error) {
+// Pop - method of Stack
+func (stack *Stack) Pop() (rune, error) {
 	length := len(stack.Data)
 
 	if length > 0 {
@@ -24,7 +30,17 @@ func (stack *Stack) Pop() (string, error) {
 		return last, nil
 	}
 
-	return "", errors.New("stack is empty")
+	return 0, errors.New("stack is empty")
+}
+
+// IsEmpty - method of Stack
+func (stack *Stack) IsEmpty() bool {
+	return len(stack.Data) == 0
+}
+
+// Size - method of Stack
+func (stack *Stack) Size() int {
+	return len(stack.Data)
 }
 
 func push(stack IStack, value interface{}) {

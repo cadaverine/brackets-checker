@@ -5,21 +5,21 @@ import "testing"
 func TestPop(t *testing.T) {
 	stack := Stack{}
 
-	stack.Push("p")
-	stack.Push("hdasda")
+	stack.Push('a')
+	stack.Push('b')
 
 	result, error := stack.Pop()
-	if result != "hdasda" || error != nil {
+	if result != 'a' || error != nil {
 		t.Errorf("test failed")
 	}
 
 	result, error = stack.Pop()
-	if result != "p" || error != nil {
+	if result != 'b' || error != nil {
 		t.Errorf("test failed")
 	}
 
 	result, error = stack.Pop()
-	if result != "" || error == nil {
+	if result != 0 || error == nil {
 		t.Errorf("test failed")
 	}
 }

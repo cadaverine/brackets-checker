@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 
 	"./stack"
 )
@@ -15,7 +17,20 @@ func some(slice []rune, predicat func(rune) bool) bool {
 	return false
 }
 
-func checkBrackets(text string) (bool, int) {
+func isPaired(first rune, second rune) bool {
+	switch true {
+	case first == '{' && second == '}':
+	case first == '}' && second == '{':
+	case first == '[' && second == ']':
+	case first == ']' && second == '[':
+	case first == '(' && second == ')':
+	case first == ')' && second == '(':
+		return true
+	}
+	return false
+}
+
+func findWrongBrackets(text string) int {
 	stack := stack.Stack{}
 	leftBrackets := []rune{'{', '[', '('}
 	rightBrackets := []rune{'}', ']', ')'}
@@ -33,30 +48,41 @@ func checkBrackets(text string) (bool, int) {
 		isRight := some(rightBrackets, isEqual)
 
 		if isLeft {
-			// stack.Push(char)
+			stack.Push(char)
 		} else if isRight {
-
+			item, err := stack.Pop()
+			if err != nil || !isPaired(item, char) {
+				return i
+			}
 		} else {
-			return false, i
+			return i
 		}
+	}
+
+	if stack.IsEmpty() {
+		return -1
+	}
+
+	return stack.Size() - 1
+}
+
+func checkBrackets(out *os.File, text string) {
+	result := findWrongBrackets(text)
+
+	if result != -1 {
+		fmt.Fprint(out, string(result))
+	} else {
+		fmt.Fprint(out, "Success")
 	}
 }
 
 func main() {
-	leftBrackets := []rune{'{', '[', '('}
-	rightBrackets := []rune{'}', ']', ')'}
+	reader := bufio.NewReader(os.Stdin)
 
-	flag := some(leftBrackets, func(value rune) bool { return value == '}' })
-	flag2 := some(rightBrackets, func(value rune) bool { return value == '}' })
+	text, err := reader.ReadString('\n')
+	if err != nil {
+		panic(err.Error)
+	}
 
-	fmt.Println(flag)
-	fmt.Println(flag2)
-
-	store := stack.Stack{}
-
-	store.Push("1")
-	store.Push("2")
-	store.Push("3")
-
-	fmt.Println(store.Data)
+	checkBrackets(os.Stdout, text)
 }
