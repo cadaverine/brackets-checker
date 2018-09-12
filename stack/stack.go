@@ -1,5 +1,7 @@
 package stack
 
+import "errors"
+
 type IStack interface {
 	Push(interface{})
 	Pop() interface{}
@@ -13,12 +15,16 @@ func (stack *Stack) Push(value string) {
 	stack.Data = append(stack.Data, value)
 }
 
-func (stack *Stack) Pop() string {
-	last := stack.Data[len(stack.Data)-1]
+func (stack *Stack) Pop() (string, error) {
+	length := len(stack.Data)
 
-	stack.Data = stack.Data[:len(stack.Data)-2]
+	if length > 0 {
+		last := stack.Data[length-1]
+		stack.Data = stack.Data[:length-1]
+		return last, nil
+	}
 
-	return last
+	return "", errors.New("stack is empty")
 }
 
 func push(stack IStack, value interface{}) {
