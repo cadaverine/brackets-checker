@@ -70,9 +70,9 @@ func checkBrackets(out *os.File, text string) {
 	result := findWrongBrackets(text)
 
 	if result != -1 {
-		fmt.Fprint(out, string(result))
+		fmt.Println(result)
 	} else {
-		fmt.Fprint(out, "Success")
+		fmt.Println("Success")
 	}
 }
 
