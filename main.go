@@ -17,14 +17,15 @@ func some(slice []rune, predicat func(rune) bool) bool {
 	return false
 }
 
-func isPaired(first rune, second rune) bool {
+func isPairedBrackets(first rune, second rune) bool {
 	switch true {
-	case first == '{' && second == '}':
-	case first == '}' && second == '{':
-	case first == '[' && second == ']':
-	case first == ']' && second == '[':
-	case first == '(' && second == ')':
-	case first == ')' && second == '(':
+	case
+		first == '{' && second == '}',
+		first == '}' && second == '{',
+		first == '[' && second == ']',
+		first == ']' && second == '[',
+		first == '(' && second == ')',
+		first == ')' && second == '(':
 		return true
 	}
 	return false
@@ -51,7 +52,7 @@ func findWrongBrackets(text string) int {
 			stack.Push(char)
 		} else if isRight {
 			item, err := stack.Pop()
-			if err != nil || !isPaired(item, char) {
+			if err != nil || !isPairedBrackets(item, char) {
 				return i
 			}
 		} else {
@@ -70,9 +71,9 @@ func checkBrackets(out *os.File, text string) {
 	result := findWrongBrackets(text)
 
 	if result != -1 {
-		fmt.Println(result)
+		fmt.Fprintln(out, result)
 	} else {
-		fmt.Println("Success")
+		fmt.Fprintln(out, "Success")
 	}
 }
 
