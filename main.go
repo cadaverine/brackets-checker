@@ -85,5 +85,7 @@ func main() {
 		panic(err.Error)
 	}
 
+	text = text[:len(text)-1]
+
 	checkBrackets(os.Stdout, text)
 }
