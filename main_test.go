@@ -27,6 +27,8 @@ func getTestData() map[string]int {
 		"}":            0,
 		"*{}":          -1,
 		"{{{**[][][]":  2,
+		"[]([]":        2,
+		"()({}":        2,
 	}
 
 	return testData

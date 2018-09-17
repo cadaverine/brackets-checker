@@ -6,6 +6,8 @@ import "errors"
 type IStack interface {
 	Push(interface{})
 	Pop() interface{}
+	Shift() interface{}
+	Unshift(interface{})
 	IsEmpty() bool
 	Size() int
 }
@@ -22,12 +24,25 @@ func (stack *Stack) Push(value rune) {
 
 // Pop - method of Stack
 func (stack *Stack) Pop() (rune, error) {
-	length := len(stack.Data)
+	length := stack.Size()
 
 	if length > 0 {
 		last := stack.Data[length-1]
 		stack.Data = stack.Data[:length-1]
 		return last, nil
+	}
+
+	return 0, errors.New("stack is empty")
+}
+
+// Shift - method of Stack
+func (stack *Stack) Shift() (rune, error) {
+	length := stack.Size()
+
+	if stack.Size() > 0 {
+		first := stack.Data[0]
+		stack.Data = stack.Data[1:length]
+		return first, nil
 	}
 
 	return 0, errors.New("stack is empty")
