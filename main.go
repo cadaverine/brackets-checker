@@ -33,6 +33,7 @@ func isPairedBrackets(first rune, second rune) bool {
 
 func findWrongBrackets(text string) int {
 	stack := stack.Stack{}
+
 	leftBrackets := []rune{'{', '[', '('}
 	rightBrackets := []rune{'}', ']', ')'}
 
@@ -48,15 +49,14 @@ func findWrongBrackets(text string) int {
 		isLeft := some(leftBrackets, isEqual)
 		isRight := some(rightBrackets, isEqual)
 
-		if isLeft {
+		switch true {
+		case isLeft:
 			stack.Push(char)
-		} else if isRight {
+		case isRight:
 			item, err := stack.Pop()
 			if err != nil || !isPairedBrackets(item, char) {
 				return i
 			}
-		} else {
-			return i
 		}
 	}
 
