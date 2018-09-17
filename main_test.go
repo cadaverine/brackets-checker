@@ -5,19 +5,20 @@ import (
 )
 
 func getTestData() map[string]int {
-	var testData map[string]int
+	testData := map[string]int{
+		// wrong brackets
+		")":       0,
+		"(":       0,
+		"))":      0,
+		"(1234":   0,
+		"([}]){}": 2,
 
-	// right brackets
-	testData["()()"] = -1
-	testData[""] = -1
-	testData["({[]}{})"] = -1
-
-	// wrong brackets
-	testData[")"] = 0
-	testData["))"] = 0
-	testData["("] = 0
-	testData[")"] = 0
-	testData["([}]){}"] = 2
+		// right brackets
+		"":          -1,
+		"()()":      -1,
+		"({[]}{})":  -1,
+		"(0[1]{2})": -1,
+	}
 
 	return testData
 }
